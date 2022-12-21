@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     departmentview.cpp \
     doctorview.cpp \
+    idatebase.cpp \
     loginview.cpp \
     main.cpp \
     masterview.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 HEADERS += \
     departmentview.h \
     doctorview.h \
+    idatebase.h \
     loginview.h \
     masterview.h \
     patienteditview.h \
