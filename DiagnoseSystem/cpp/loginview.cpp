@@ -1,5 +1,6 @@
 #include "loginview.h"
 #include "ui_loginview.h"
+#include "idatebase.h"
 
 LoginView::LoginView(QWidget *parent) :
     QWidget(parent),
@@ -15,5 +16,9 @@ LoginView::~LoginView()
 
 void LoginView::on_btSignIn_clicked()
 {
-    emit loginSuccess();
+    QString status = IDateBase::getInstance().userLogin(ui->inputuserName->text(),ui->inputPassWord->text());
+
+    if(status == "loginOK"){
+        emit loginSuccess();
+    }
 }
