@@ -26,7 +26,7 @@ private:
     QSqlDatabase datebase;
     void ininDataBase();//连接数据库
 public:
-    bool initPatientModel();
+    bool initPatientModel();//初始化模型
     bool searchPatient(QString filter);
     bool deleteCurrentPatient();
     bool submitPatientEdit();
