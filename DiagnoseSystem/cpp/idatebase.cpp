@@ -19,6 +19,21 @@ void IDateBase::ininDataBase()
     }
 }
 
+bool IDateBase::initPatientModel()
+{
+    patientTabModel = new QSqlTableModel(this,datebase);//数据表
+    patientTabModel->setTable("Patient");//与数据库的表关联
+    patientTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);//数据保存方式，OnManualSubmit , OnRowChange
+    patientTabModel->setSort(patientTabModel->fieldIndex("name"),Qt::AscendingOrder); //排序
+    if (!(patientTabModel->select()))//查询数据
+    {
+       return false;
+    }
+
+    thePatientSelection = new QItemSelectionModel(patientTabModel);//选择模型和patientTabModel模型关联
+    return true;
+}
+
 QString IDateBase::userLogin(QString userName, QString password)
 {
     //return  "loginOK";
