@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+
 namespace Ui {
 class PatientView;
 }
@@ -18,8 +19,14 @@ public:
 private slots:
     void on_btadd_2_clicked();
 
+    void on_btcheck_2_clicked();
+
+    void on_btdel_2_clicked();
+
+    void on_btchange_2_clicked();
+
 signals:
-    void goPatientEditView();
+    void goPatientEditView(int idx);
 
 private:
     Ui::PatientView *ui;

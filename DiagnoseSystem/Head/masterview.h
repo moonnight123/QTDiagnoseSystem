@@ -27,7 +27,7 @@ public slots:
     void goWelcomeView();//欢迎页面
     void goDoctorView();//医生管理
     void goDepartmentView();//科室管理
-    void goPatientEditView();//患者添加
+    void goPatientEditView(int rowNo);//患者添加
     void goPatientView();//患者管理
     void goPreviousView();//返回上一页面
 

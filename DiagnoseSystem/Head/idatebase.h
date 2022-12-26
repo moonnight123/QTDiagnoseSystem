@@ -25,11 +25,12 @@ private:
     void operator=(IDateBase const&)  = delete;
     QSqlDatabase datebase;
     void ininDataBase();//连接数据库
+
 public:
     bool initPatientModel();//初始化模型
-    bool searchPatient(QString filter);
+    bool searchPatient(QString filter);//Patient数据查询
     bool deleteCurrentPatient();
-    bool submitPatientEdit();
+    bool submitPatientEdit();//提交所有未更新的修改到数据库
     void revertPatientEdit();
     int addNewPatient();
 
