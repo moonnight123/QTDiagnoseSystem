@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     departmentview.cpp \
+    doctoreditview.cpp \
     doctorview.cpp \
     idatebase.cpp \
     loginview.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 
 HEADERS += \
     departmentview.h \
+    doctoreditview.h \
     doctorview.h \
     idatebase.h \
     loginview.h \
@@ -38,6 +40,7 @@ HEADERS += \
 
 FORMS += \
     departmentview.ui \
+    doctoreditview.ui \
     doctorview.ui \
     loginview.ui \
     masterview.ui \
