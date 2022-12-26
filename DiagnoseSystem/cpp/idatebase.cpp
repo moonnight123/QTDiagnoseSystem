@@ -19,17 +19,38 @@ void IDateBase::ininDataBase()
     }
 }
 
-bool IDateBase::initPatientModel()
+bool IDateBase::initModel(QSqlTableModel *TableModel,QString name,QString fIndex)
 {
-    patientTabModel = new QSqlTableModel(this,datebase);//数据表
-    patientTabModel->setTable("Patient");//与数据库的表关联
-    patientTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);//数据保存方式，OnManualSubmit , OnRowChange
-    patientTabModel->setSort(patientTabModel->fieldIndex("name"),Qt::AscendingOrder); //排序
-    if (!(patientTabModel->select()))//查询数据
+    TableModel->setTable(name);//与数据库的表关联
+    TableModel->setEditStrategy(QSqlTableModel::OnManualSubmit);//数据保存方式，OnManualSubmit , OnRowChange
+    TableModel->setSort(TableModel->fieldIndex(fIndex),Qt::AscendingOrder); //排序
+    if (!(TableModel->select()))//查询数据
     {
        return false;
     }
+    return true;
+}
 
+bool IDateBase::search(QSqlTableModel *TableModel,QString filter)
+{
+    TableModel->setFilter(filter);//查询操作
+    return TableModel->select();
+}
+
+void IDateBase::deleteCurrunt(QSqlTableModel *TableModel,QItemSelectionModel *SelectionModel)
+{
+    QModelIndex curIndex = SelectionModel->currentIndex();//获取当前单元格的模型索引
+    TableModel->removeRow( curIndex.row( ));
+    TableModel->submitAll();
+    TableModel->select();
+}
+
+bool IDateBase::initPatientModel()
+{
+    patientTabModel = new QSqlTableModel(this,datebase);//数据表
+    if(!initModel(patientTabModel,"Patient","name")){
+        return false;
+    }
     thePatientSelection = new QItemSelectionModel(patientTabModel);//选择模型和patientTabModel模型关联
     return true;
 }
@@ -58,18 +79,14 @@ QString IDateBase::userLogin(QString userName, QString password)
 
 }
 
-bool IDateBase::deleteCurrentPatient()
+void IDateBase::deleteCurrentPatient()
 {
-    QModelIndex curIndex = thePatientSelection->currentIndex();//获取当前单元格的模型索引
-    patientTabModel->removeRow( curIndex.row( ));
-    patientTabModel->submitAll();
-    patientTabModel->select();
+    deleteCurrunt(patientTabModel,thePatientSelection);
 }
 
 bool IDateBase::searchPatient(QString filter)
 {
-    patientTabModel->setFilter(filter);//查询操作
-    return patientTabModel->select();
+    return search(patientTabModel,filter);
 }
 
 bool IDateBase::submitPatientEdit()
@@ -95,4 +112,41 @@ int IDateBase::addNewPatient(){
     curRec.setValue("ID",UID);
     patientTabModel->setRecord(curRecNo,curRec);
     return curIndex.row();
+}
+
+bool IDateBase::initDoctorModel()
+{
+    doctorTabModel = new QSqlTableModel(this,datebase);//数据表
+    if(!initModel(doctorTabModel,"Doctor","name")){
+        return false;
+    }
+    theDoctorSelection = new QItemSelectionModel(doctorTabModel);//选择模型和patientTabModel模型关联
+    return true;
+}
+
+bool IDateBase::searchDoctor(QString filter)
+{
+    return search(doctorTabModel,filter);
+}
+
+void IDateBase::deleteCurruntDoctor()
+{
+    deleteCurrunt(doctorTabModel,theDoctorSelection);
+}
+
+int IDateBase::addNewDoctor()
+{
+    doctorTabModel->insertRow(doctorTabModel->rowCount(),QModelIndex());//在末尾添加一个记录
+    QModelIndex curIndex = doctorTabModel->index(doctorTabModel->rowCount()-1,1);
+    return curIndex.row();
+}
+
+bool IDateBase::submitDoctorEdit()
+{
+    return doctorTabModel->submitAll();//提交所有未更新的修改到数据库
+}
+
+void IDateBase::revertDoctorEdit()
+{
+    doctorTabModel->revertAll();
 }
