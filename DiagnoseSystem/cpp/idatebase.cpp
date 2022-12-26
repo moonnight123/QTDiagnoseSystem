@@ -57,3 +57,42 @@ QString IDateBase::userLogin(QString userName, QString password)
     }
 
 }
+
+bool IDateBase::deleteCurrentPatient()
+{
+    QModelIndex curIndex = thePatientSelection->currentIndex();//获取当前单元格的模型索引
+    patientTabModel->removeRow( curIndex.row( ));
+    patientTabModel->submitAll();
+    patientTabModel->select();
+}
+
+bool IDateBase::searchPatient(QString filter)
+{
+    patientTabModel->setFilter(filter);//查询操作
+    return patientTabModel->select();
+}
+
+bool IDateBase::submitPatientEdit()
+{
+    return patientTabModel->submitAll();//提交所有未更新的修改到数据库
+}
+
+void IDateBase::revertPatientEdit()
+{
+    patientTabModel->revertAll();
+}
+
+int IDateBase::addNewPatient(){
+    patientTabModel->insertRow(patientTabModel->rowCount(),QModelIndex());//在末尾添加一个记录
+    QModelIndex curIndex = patientTabModel->index(patientTabModel->rowCount()-1,1);
+
+    int curRecNo  = curIndex.row();
+    QSqlRecord curRec = patientTabModel->record(curRecNo);
+    curRec.setValue("CREATEDTIMESTAMP",QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+
+    QString UID = QUuid::createUuid().toString();
+    UID.remove("{").remove("}").remove("-");
+    curRec.setValue("ID",UID);
+    patientTabModel->setRecord(curRecNo,curRec);
+    return curIndex.row();
+}

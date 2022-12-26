@@ -1,14 +1,43 @@
 #include "patienteditview.h"
 #include "ui_patienteditview.h"
-
-PatientEditView::PatientEditView(QWidget *parent) :
+#include "idatebase.h"
+#include <QDataWidgetMapper>
+PatientEditView::PatientEditView(QWidget *parent, int index) :
     QWidget(parent),
     ui(new Ui::PatientEditView)
 {
     ui->setupUi(this);
+    dataMapper = new QDataWidgetMapper();
+    QSqlTableModel *tabModel = IDateBase::getInstance().patientTabModel;
+    dataMapper->setModel(IDateBase::getInstance( ).patientTabModel);
+    dataMapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+
+    dataMapper->addMapping(ui->dbEditID, tabModel->fieldIndex("ID"));
+    dataMapper->addMapping(ui->dbEditName,tabModel->fieldIndex("NAME"));
+    dataMapper->addMapping(ui->dbEditIDCard,tabModel->fieldIndex("ID_CARD"));
+    dataMapper->addMapping(ui->dbSpinHeight,tabModel->fieldIndex("HEIGHT"));
+    dataMapper->addMapping(ui->dbSpinweight,tabModel->fieldIndex("WEIGHT"));
+    dataMapper->addMapping(ui->dbEditwobile,tabModel->fieldIndex("MOBILEPHONE"));
+    dataMapper->addMapping(ui->dbDateEditDOB,tabModel->fieldIndex("DOB"));
+    dataMapper->addMapping(ui->dbComboSex,tabModel->fieldIndex("SEX"));
+    dataMapper->addMapping(ui->dbCreatedTimeStamp, tabModel->fieldIndex("CREATEDTIMESTAMP"));
+    dataMapper->setCurrentIndex(index);
+    //ui->dbEditID->setEnabled(false);
 }
 
 PatientEditView::~PatientEditView()
 {
     delete ui;
+}
+
+void PatientEditView::on_pushButton_clicked()
+{
+    IDateBase::getInstance().patientTabModel->submitAll();
+    emit goPreviousView();
+}
+
+void PatientEditView::on_pushButton_2_clicked()
+{
+    IDateBase::getInstance().revertPatientEdit();
+    emit goPreviousView();
 }
