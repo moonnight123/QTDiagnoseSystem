@@ -10,6 +10,7 @@
 #include "welcomeview.h"
 #include "doctoreditview.h"
 #include "departmenteditview.h"
+#include "historyview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MasterView; }
@@ -33,7 +34,7 @@ public slots:
     void goDepartmentEditView(int rowNo);//科室添加
     void goPatientEditView(int rowNo);//患者添加
     void goPatientView();//患者管理
-
+    void goHistoryView();//历史界面
     void goPreviousView();//返回上一页面
 
 private slots:
@@ -55,5 +56,6 @@ private:
     PatientEditView *patientEditView;
     DoctorEditView *doctorEditView;
     DepartmentEditView *departmentEditView;
+    HistoryView *historyView;
 };
 #endif // MASTERVIEW_H

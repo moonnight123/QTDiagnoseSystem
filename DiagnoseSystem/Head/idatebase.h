@@ -18,6 +18,7 @@ public:
     }
 
     QString userLogin(QString userName,QString password);
+    QString userName;
 
 private:
     explicit IDateBase(QObject *parent = nullptr);
@@ -52,15 +53,22 @@ public:
     bool submitDepartmentEdit();
     void revertDepartmentEdit();
 
+    void addNewHistory(QString Event);
+    int initHistoryModel();
+    bool searchHistory(QString filter);
+    void deleteCurruntHistory();
+
     //数据模型
     QSqlTableModel  *patientTabModel;
     QSqlTableModel *doctorTabModel;
     QSqlTableModel *departmentModel;
+    QSqlTableModel *historyTabModel;
 
     //选择模型
     QItemSelectionModel *thePatientSelection;
     QItemSelectionModel *theDoctorSelection;
     QItemSelectionModel *theDepartmentSelection;
+    QItemSelectionModel *theHistorySelection;
 signals:
 
 
