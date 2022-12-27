@@ -45,13 +45,22 @@ public:
     bool submitDoctorEdit();
     void revertDoctorEdit();
 
+    bool initDepartmentModel();
+    bool searchDepartment(QString filter);
+    void deleteCurruntDepartment();
+    int addNewDepartment();
+    bool submitDepartmentEdit();
+    void revertDepartmentEdit();
+
     //数据模型
     QSqlTableModel  *patientTabModel;
     QSqlTableModel *doctorTabModel;
+    QSqlTableModel *departmentModel;
 
     //选择模型
     QItemSelectionModel *thePatientSelection;
     QItemSelectionModel *theDoctorSelection;
+    QItemSelectionModel *theDepartmentSelection;
 signals:
 
 
