@@ -27,3 +27,8 @@ void WelcomeView::on_btPatient_clicked()
 {
     emit goPatientView();
 }
+
+void WelcomeView::on_btHistory_clicked()
+{
+    emit goHistoryView();
+}

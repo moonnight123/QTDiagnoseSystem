@@ -1,6 +1,7 @@
 #include "idatebase.h"
 #include <QDebug>
 #include <QUuid>
+#include "loginview.h"
 IDateBase::IDateBase(QObject *parent) : QObject(parent){
     ininDataBase();
 }
@@ -59,13 +60,15 @@ QString IDateBase::userLogin(QString userName, QString password)
 {
     //return  "loginOK";
     QSqlQuery query; //查询出当前记录的所有字段
-    query.prepare("select username,password from user where username = :USER");
+    query.prepare("select ID,username,password from user where username = :USER");
     query.bindValue(":USER",userName);
     query.exec();
     query.first();
     if(query.first() && query.value("username").isValid()){
            QString passwd = query.value("password").toString();
            if(passwd == password){
+               QString userID = query.value("ID").toString();
+               this->userName = userID;
                return "loginOK";
            }else{
                qDebug()<<"wrong password";
@@ -77,6 +80,48 @@ QString IDateBase::userLogin(QString userName, QString password)
         return "wrongUsername";
     }
 
+}
+
+void IDateBase::addNewHistory(QString Event)
+{
+    QSqlQuery query;
+    query.prepare("insert into history(ID,USER_ID,EVENT,TIMESTAMP)values(:id,:user,:event,:time)");
+    QString UID = QUuid::createUuid().toString();
+    UID.remove("{").remove("}").remove("-");
+    query.bindValue(":id",UID);
+    query.bindValue(":user",userName);
+    query.bindValue(":event",Event);
+    query.bindValue(":time",QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    bool ni= query.exec();
+    if(!ni)
+    {
+        QSqlError lastError=query.lastError ();
+        qDebug()<<lastError.driverText ()<<QString(QObject::tr ("插入失败\n"));
+    }
+    else
+    {
+        qDebug()<<QObject::tr ("插入成功\n");
+    }
+}
+
+int IDateBase::initHistoryModel()
+{
+    historyTabModel = new QSqlTableModel(this,datebase);//数据表
+    if(!initModel(historyTabModel,"History","TIMESTAMP")){
+        return false;
+    }
+    theHistorySelection = new QItemSelectionModel(historyTabModel);//选择模型和patientTabModel模型关联
+    return true;
+}
+
+bool IDateBase::searchHistory(QString filter)
+{
+    return search(historyTabModel,filter);
+}
+
+void IDateBase::deleteCurruntHistory()
+{
+    deleteCurrunt(historyTabModel,theHistorySelection);
 }
 
 void IDateBase::deleteCurrentPatient()
@@ -187,3 +232,5 @@ void IDateBase::revertDepartmentEdit()
 {
     departmentModel->revertAll();
 }
+
+

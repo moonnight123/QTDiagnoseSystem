@@ -35,6 +35,7 @@ void MasterView::goWelcomeView()
     connect(welcomeView,SIGNAL(goDepartmentView()),this,SLOT(goDepartmentView()));
     connect(welcomeView,SIGNAL(goDoctorView()),this,SLOT(goDoctorView()));
     connect(welcomeView,SIGNAL(goPatientView()),this,SLOT(goPatientView()));
+    connect(welcomeView,SIGNAL(goHistoryView()),this,SLOT(goHistoryView()));
 }
 
 void MasterView::goDoctorView()
@@ -81,6 +82,12 @@ void MasterView::goPatientView()
     patientView = new PatientView(this);
     pushWidgetToStackView(patientView);
     connect(patientView,SIGNAL(goPatientEditView(int)),this,SLOT(goPatientEditView(int)));
+}
+
+void MasterView::goHistoryView()
+{
+    historyView = new HistoryView(this);
+    pushWidgetToStackView(historyView);
 }
 
 void MasterView::goPreviousView()
