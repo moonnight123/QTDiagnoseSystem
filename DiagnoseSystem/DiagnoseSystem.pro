@@ -20,6 +20,7 @@ SOURCES += \
     departmentview.cpp \
     doctoreditview.cpp \
     doctorview.cpp \
+    historyview.cpp \
     idatebase.cpp \
     loginview.cpp \
     main.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     departmentview.h \
     doctoreditview.h \
     doctorview.h \
+    historyview.h \
     idatebase.h \
     loginview.h \
     masterview.h \
@@ -45,6 +47,7 @@ FORMS += \
     departmentview.ui \
     doctoreditview.ui \
     doctorview.ui \
+    historyview.ui \
     loginview.ui \
     masterview.ui \
     patienteditview.ui \
