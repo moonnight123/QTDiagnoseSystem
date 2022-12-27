@@ -150,3 +150,40 @@ void IDateBase::revertDoctorEdit()
 {
     doctorTabModel->revertAll();
 }
+
+bool IDateBase::initDepartmentModel()
+{
+    departmentModel = new QSqlTableModel(this,datebase);//数据表
+    if(!initModel(departmentModel,"Department","name")){
+        return false;
+    }
+    theDepartmentSelection = new QItemSelectionModel(departmentModel);//选择模型和patientTabModel模型关联
+    return true;
+}
+
+bool IDateBase::searchDepartment(QString filter)
+{
+    return search(departmentModel,filter);
+}
+
+void IDateBase::deleteCurruntDepartment()
+{
+    deleteCurrunt(departmentModel,theDepartmentSelection);
+}
+
+int IDateBase::addNewDepartment()
+{
+    departmentModel->insertRow(departmentModel->rowCount(),QModelIndex());//在末尾添加一个记录
+    QModelIndex curIndex = departmentModel->index(departmentModel->rowCount()-1,1);
+    return curIndex.row();
+}
+
+bool IDateBase::submitDepartmentEdit()
+{
+    return departmentModel->submitAll();//提交所有未更新的修改到数据库
+}
+
+void IDateBase::revertDepartmentEdit()
+{
+    departmentModel->revertAll();
+}

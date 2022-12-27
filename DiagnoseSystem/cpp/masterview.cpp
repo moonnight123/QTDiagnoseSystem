@@ -57,6 +57,15 @@ void MasterView::goDepartmentView()
 {
     departmentView = new DepartmentView(this);
     pushWidgetToStackView(departmentView);
+
+    connect(departmentView,SIGNAL(goDepartmentEditView(int)),this,SLOT(goDepartmentEditView(int)));
+}
+
+void MasterView::goDepartmentEditView(int rowNo)
+{
+    departmentEditView = new DepartmentEditView(this,rowNo);
+    pushWidgetToStackView(departmentEditView);
+    connect(departmentEditView,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
 void MasterView::goPatientEditView(int rowNo)
