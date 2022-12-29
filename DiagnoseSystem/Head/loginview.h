@@ -18,9 +18,12 @@ public:
 private slots:
     void on_btSignIn_clicked();
 
+    void on_btSignOn_clicked();
+
 signals:
     void loginSuccess();
     void loginFailed();
+    void goRegisterView();
 
 private:
     Ui::LoginView *ui;

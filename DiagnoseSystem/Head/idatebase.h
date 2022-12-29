@@ -18,6 +18,7 @@ public:
     }
 
     QString userLogin(QString userName,QString password);
+    QString userRegister(QString ID,QString FullName,QString userName,QString passWord,QString repassWord);
     QString userName;
 
 private:
