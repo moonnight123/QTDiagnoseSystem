@@ -22,3 +22,8 @@ void LoginView::on_btSignIn_clicked()
         emit loginSuccess();
     }
 }
+
+void LoginView::on_btSignOn_clicked()
+{
+    emit goRegisterView();
+}

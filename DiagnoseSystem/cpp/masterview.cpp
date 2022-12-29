@@ -25,6 +25,7 @@ void MasterView::goLoginView()
     pushWidgetToStackView(loginView);
 
     connect(loginView,SIGNAL(loginSuccess()),this,SLOT(goWelcomeView()));
+    connect(loginView,SIGNAL(goRegisterView()),this,SLOT(goRegisterView()));
 }
 
 void MasterView::goWelcomeView()
@@ -104,6 +105,14 @@ void MasterView::goPreviousView()
         QWidget *widget = ui->stackedWidget->widget(count-1);//获取最新的页面
         delete  widget;//清除页面
     }
+}
+
+void MasterView::goRegisterView()
+{
+    registerView = new RegisterView(this);
+    pushWidgetToStackView(registerView);
+
+    connect(registerView,SIGNAL(goLoginView()),this,SLOT(goLoginView()));
 }
 
 void MasterView::pushWidgetToStackView(QWidget *widget)

@@ -82,6 +82,41 @@ QString IDateBase::userLogin(QString userName, QString password)
 
 }
 
+QString IDateBase::userRegister(QString ID, QString FullName, QString userName, QString passWord, QString repassWord)
+{
+    QSqlQuery query;
+    if(passWord!=repassWord){
+        return "密码重复";
+    }
+
+    else{
+        query.prepare("select ID,username,password from user where username = :USER");
+        query.bindValue(":USER",userName);
+        query.exec();
+        query.first();
+        if(query.first() && query.value("username").isValid()){
+            return "用户名已存在";
+        }
+
+        else{
+            query.prepare("insert into user(ID,FULLNAME,USERNAME,PASSWORD)values(:id,:full,:username,:password)");
+            query.bindValue(":id",ID);
+            query.bindValue(":full",FullName);
+            query.bindValue(":username",userName);
+            query.bindValue(":password",passWord);
+            bool ni= query.exec();
+            if(!ni)
+            {
+                return "注册失败";
+            }
+            else
+            {
+                return "注册成功";
+            }
+        }
+    }
+}
+
 void IDateBase::addNewHistory(QString Event)
 {
     QSqlQuery query;
