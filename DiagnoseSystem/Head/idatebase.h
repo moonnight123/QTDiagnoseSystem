@@ -18,8 +18,10 @@ public:
     }
 
     QString userLogin(QString userName,QString password);
+    QString userDoctorLogin(QString userName,QString password);
     QString userRegister(QString ID,QString FullName,QString userName,QString passWord,QString repassWord);
     QString userName;
+    QString information[7];
 
 private:
     explicit IDateBase(QObject *parent = nullptr);
@@ -59,17 +61,26 @@ public:
     bool searchHistory(QString filter);
     void deleteCurruntHistory();
 
+    bool initDoctorPatientModel();
+    bool searchDoctorPatient(QString filter);
+    void deleteDoctorPatient();
+    int addNewDoctorPatient();
+    bool submitDoctorPatient();
+    void revertDoctorPatient();
+
     //数据模型
     QSqlTableModel  *patientTabModel;
     QSqlTableModel *doctorTabModel;
     QSqlTableModel *departmentModel;
     QSqlTableModel *historyTabModel;
+    QSqlTableModel *doctorPatientModel;
 
     //选择模型
     QItemSelectionModel *thePatientSelection;
     QItemSelectionModel *theDoctorSelection;
     QItemSelectionModel *theDepartmentSelection;
     QItemSelectionModel *theHistorySelection;
+    QItemSelectionModel *theDoctorPatientSelection;
 signals:
 
 

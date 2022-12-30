@@ -24,6 +24,7 @@ signals:
     void loginSuccess();
     void loginFailed();
     void goRegisterView();
+    void loginSuccess2();
 
 private:
     Ui::LoginView *ui;
