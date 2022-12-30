@@ -26,6 +26,7 @@ void MasterView::goLoginView()
 
     connect(loginView,SIGNAL(loginSuccess()),this,SLOT(goWelcomeView()));
     connect(loginView,SIGNAL(goRegisterView()),this,SLOT(goRegisterView()));
+    connect(loginView,SIGNAL(loginSuccess2()),this,SLOT(goWelcomeDoctorView()));
 }
 
 void MasterView::goWelcomeView()
@@ -113,6 +114,35 @@ void MasterView::goRegisterView()
     pushWidgetToStackView(registerView);
 
     connect(registerView,SIGNAL(goLoginView()),this,SLOT(goLoginView()));
+}
+
+void MasterView::goWelcomeDoctorView()
+{
+    welcomeDoctorView = new WelconDoctorView(this);
+    pushWidgetToStackView(welcomeDoctorView);
+
+    connect(welcomeDoctorView,SIGNAL(goDoctorInformationView()),this,SLOT(goDoctorInformationView()));
+    connect(welcomeDoctorView,SIGNAL(goDoctorPatientView()),this,SLOT(goDoctorPatientView()));
+}
+
+void MasterView::goDoctorInformationView()
+{
+    doctorInformationView = new DoctorInformationView(this);
+    pushWidgetToStackView(doctorInformationView);
+}
+
+void MasterView::goDoctorPatientView()
+{
+    doctorPatientView = new DoctorPatientView(this);
+    pushWidgetToStackView(doctorPatientView);
+    connect(doctorPatientView,SIGNAL(goDoctorPatientEditView(int)),this,SLOT(goDoctorPatientEditView(int)));
+}
+
+void MasterView::goDoctorPatientEditView(int rowNo)
+{
+    doctorPatientEdit = new DoctorPatientEditView(this,rowNo);
+    pushWidgetToStackView(doctorPatientEdit);
+    connect(doctorPatientEdit,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
 void MasterView::pushWidgetToStackView(QWidget *widget)

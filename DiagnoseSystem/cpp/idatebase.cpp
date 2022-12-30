@@ -79,7 +79,35 @@ QString IDateBase::userLogin(QString userName, QString password)
         qDebug()<<"no such username";
         return "wrongUsername";
     }
+}
 
+QString IDateBase::userDoctorLogin(QString userName, QString password)
+{
+    QSqlQuery query; //查询出当前记录的所有字段
+    query.prepare("select ID,username,password,phoneNumber,birthday,address,patientNumber from user_doctor where username = :USER");
+    query.bindValue(":USER",userName);
+    query.exec();
+    query.first();
+    if(query.first() && query.value("username").isValid()){
+           QString passwd = query.value("password").toString();
+           if(passwd == password){
+               information[0] = query.value("ID").toString();
+               information[1] = query.value("username").toString();
+               information[2] = query.value("password").toString();
+               information[3] = query.value("phoneNumber").toString();
+               information[4] = query.value("birthday").toString();
+               information[5] = query.value("address").toString();
+               information[6] = query.value("patientNumber").toString();
+               return "loginOK";
+           }else{
+               qDebug()<<"wrong password";
+               return "wrongPassword";
+           }
+    }
+    else{
+        qDebug()<<"no such username";
+        return "wrongUsername";
+    }
 }
 
 QString IDateBase::userRegister(QString ID, QString FullName, QString userName, QString passWord, QString repassWord)
@@ -157,6 +185,43 @@ bool IDateBase::searchHistory(QString filter)
 void IDateBase::deleteCurruntHistory()
 {
     deleteCurrunt(historyTabModel,theHistorySelection);
+}
+
+bool IDateBase::initDoctorPatientModel()
+{
+    doctorPatientModel = new QSqlTableModel(this,datebase);
+    if(!initModel(doctorPatientModel,"Patient_doctor","NAME")){
+        return false;
+    }
+    theDoctorPatientSelection = new QItemSelectionModel(doctorPatientModel);
+    return true;
+}
+
+bool IDateBase::searchDoctorPatient(QString filter)
+{
+    return search(doctorPatientModel,filter);
+}
+
+void IDateBase::deleteDoctorPatient()
+{
+    deleteCurrunt(doctorPatientModel,theDoctorPatientSelection);
+}
+
+int IDateBase::addNewDoctorPatient()
+{
+    doctorPatientModel->insertRow(doctorPatientModel->rowCount(),QModelIndex());//在末尾添加一个记录
+    QModelIndex curIndex = doctorPatientModel->index(doctorPatientModel->rowCount()-1,1);
+    return curIndex.row();
+}
+
+bool IDateBase::submitDoctorPatient()
+{
+    return doctorPatientModel->submitAll();//提交所有未更新的修改到数据库
+}
+
+void IDateBase::revertDoctorPatient()
+{
+    doctorPatientModel->revertAll();
 }
 
 void IDateBase::deleteCurrentPatient()

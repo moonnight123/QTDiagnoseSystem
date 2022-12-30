@@ -7,6 +7,7 @@ LoginView::LoginView(QWidget *parent) :
     ui(new Ui::LoginView)
 {
     ui->setupUi(this);
+    ui->rbmanage->setChecked(true);
 }
 
 LoginView::~LoginView()
@@ -16,10 +17,17 @@ LoginView::~LoginView()
 
 void LoginView::on_btSignIn_clicked()
 {
-    QString status = IDateBase::getInstance().userLogin(ui->inputuserName->text(),ui->inputPassWord->text());
-
-    if(status == "loginOK"){
-        emit loginSuccess();
+    if(ui->rbmanage->isChecked()){
+        QString status = IDateBase::getInstance().userLogin(ui->inputuserName->text(),ui->inputPassWord->text());
+        if(status == "loginOK"){
+                emit loginSuccess();
+        }
+    }
+    else if(ui->rbdoctor->isChecked()){
+        QString status = IDateBase::getInstance().userDoctorLogin(ui->inputuserName->text(),ui->inputPassWord->text());
+        if(status == "loginOK"){
+            emit loginSuccess2();
+        }
     }
 }
 
