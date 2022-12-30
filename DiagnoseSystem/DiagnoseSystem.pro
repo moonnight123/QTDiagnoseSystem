@@ -19,6 +19,9 @@ SOURCES += \
     departmenteditview.cpp \
     departmentview.cpp \
     doctoreditview.cpp \
+    doctorinformationview.cpp \
+    doctorpatienteditview.cpp \
+    doctorpatientview.cpp \
     doctorview.cpp \
     historyview.cpp \
     idatebase.cpp \
@@ -27,12 +30,17 @@ SOURCES += \
     masterview.cpp \
     patienteditview.cpp \
     patientview.cpp \
-    welcomeview.cpp
+    registerview.cpp \
+    welcomeview.cpp \
+    welcondoctorview.cpp
 
 HEADERS += \
     departmenteditview.h \
     departmentview.h \
     doctoreditview.h \
+    doctorinformationview.h \
+    doctorpatienteditview.h \
+    doctorpatientview.h \
     doctorview.h \
     historyview.h \
     idatebase.h \
@@ -40,19 +48,26 @@ HEADERS += \
     masterview.h \
     patienteditview.h \
     patientview.h \
-    welcomeview.h
+    registerview.h \
+    welcomeview.h \
+    welcondoctorview.h
 
 FORMS += \
     departmenteditview.ui \
     departmentview.ui \
     doctoreditview.ui \
+    doctorinformationview.ui \
+    doctorpatienteditview.ui \
+    doctorpatientview.ui \
     doctorview.ui \
     historyview.ui \
     loginview.ui \
     masterview.ui \
     patienteditview.ui \
     patientview.ui \
-    welcomeview.ui
+    registerview.ui \
+    welcomeview.ui \
+    welcondoctorview.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
